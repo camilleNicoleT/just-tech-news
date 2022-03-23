@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Post, Vote } = require("../../models");
+const { User, Post, Comment, Vote } = require("../../models");
 
 // GET /api/users
 router.get('/', (req, res) => { 
@@ -71,6 +71,10 @@ router.post('/', (req, res) => {
   
       res.json(dbUserData);
     });
+})
+.catch(err => {
+  console.log(err);
+  res.status(500).json(err);
 });
 });
 
@@ -98,9 +102,9 @@ User.findOne({
       req.session.username = dbUserData.username;
       req.session.loggedIn = true;
 
-    res.json({ user: dbUserData, message: 'You are now logged in!' });
+      res.json({ user: dbUserData, message: 'You are now logged in!' });
+    });
   });
-});
 });
 
 //User can log out
